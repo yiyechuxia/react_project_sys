@@ -1,0 +1,43 @@
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.top_menu{
+  display: inline-block !important;
+  width:60%;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+.Avatar_cs{
+  float: right;
+  margin:0 20px;
+}
+
+.tagList{
+  border-bottom: 2px solid #eee;
+  padding:5px 10px;
+  background:#fff;
+  box-shadow: 0 1px 3px 0 #ddd;
+  border-top: 3px solid #eee;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+.ant-layout{
+  height:100%;
+}
