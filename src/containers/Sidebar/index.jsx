@@ -11,10 +11,6 @@ import {
 } from "@ant-design/icons"
 const { Sider } = Layout
 class Sidebar extends Component {
-  toDetails = ()=>{
-    console.log(this);
-    this.props.history.push('/Details')
-  }
   render() {
     return (
       // 侧边栏菜单
@@ -24,10 +20,10 @@ class Sidebar extends Component {
         <Menu.Item key="1" icon={<UserOutlined />} onClick={()=>{this.props.history.push('/management/user')}}>
           用户管理
         </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />} onClick={this.toDetails}>
+        <Menu.Item key="2" icon={<VideoCameraOutlined />} onClick={()=>{this.props.history.push('/management/role')}}>
           角色管理
         </Menu.Item>
-        <Menu.Item key="3" icon={<TeamOutlined />}>
+        <Menu.Item key="3" icon={<TeamOutlined />} onClick={()=>{this.props.history.push('/management/menu')}}>
           菜单管理
         </Menu.Item>
         <Menu.Item key="5" icon={<UploadOutlined />}>

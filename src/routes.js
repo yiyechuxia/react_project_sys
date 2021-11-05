@@ -2,7 +2,8 @@ import { RouteConfig } from "react-router-config"
 import App from "./App"
 // 系统管理模块
 import User from './pages/management/user'
-import Details from "./containers/Details/index"
+import Role from "./pages/management/role"
+import Menu from "./pages/management/menu"
 
 const routes : RouteConfig = [
   {
@@ -14,8 +15,12 @@ const routes : RouteConfig = [
         component: User,
       },
       {
-        path: "/Details",
-        component: Details,
+        path: "/management/role",
+        component: Role,
+      },
+      {
+        path: "/management/menu",
+        component: Menu,
       },
     ],
   },

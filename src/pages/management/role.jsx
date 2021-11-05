@@ -1,61 +1,10 @@
 /*用户管理模块*/
 import React, { Component } from 'react'
-import { Layout,Row, Col,Input,Tree,Button,Select,Form,DatePicker,Space,Table,Switch} from "antd"
+import { Layout,Row, Col,Input,Button,Select,Form,DatePicker,Space,Table,Switch} from "antd"
 import { SearchOutlined,SyncOutlined,EditOutlined,
-  DeleteOutlined,
-  VerticalAlignTopOutlined,VerticalAlignBottomOutlined,BarsOutlined,MenuOutlined } from '@ant-design/icons';
+  DeleteOutlined,VerticalAlignBottomOutlined,MenuOutlined } from '@ant-design/icons';
 import '../../assets/css/management/user.scss'
 const { Content } = Layout
-
-
-const treeData = [
-  {
-    title:"秀辉科技",
-    key:'1',
-    children:[
-      {
-        title:"深圳总公司",
-        key:'1-1',
-        children:[
-          {
-            title:"研发部门",
-            key:'1-1-1'
-          },
-          {
-            title:"市场部门",
-            key:'1-1-2'
-          },
-          {
-            title:"测试部门",
-            key:'1-1-3'
-          },
-          {
-            title:"财务部门",
-            key:'1-1-4'
-          },
-          {
-            title:"运维部门",
-            key:'1-1-5'
-          }
-        ]
-      },
-      {
-        title:"长沙总公司",
-        key:'1-2',
-        children:[
-          {
-            title:"市场部门",
-            key:'1-2-1'
-          },
-          {
-            title:"财务部门",
-            key:'1-2-2'
-          },
-        ]
-      }
-    ]
-  }
-];
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -63,10 +12,9 @@ const dataSource = [
   {
     key:'1',
     code:'1',
-    name:'张三',
-    nickname:'李四',
-    department:'研发部门',
-    phone:'1371225xxxx',
+    name:'超级管理员',
+    permissions:'admin',
+    order:'1',
     status:true,
     createTime:'2021-11-3 15:39:28',
     showAction:false
@@ -74,10 +22,9 @@ const dataSource = [
   {
     key:'2',
     code:'2',
-    name:'王五',
-    nickname:'赵六',
-    department:'测试部门',
-    phone:'1371225xxxx',
+    name:'普通角色',
+    permissions:'common',
+    order:'2',
     status:true,
     createTime:'2021-11-3 15:39:28',
     showAction:true
@@ -86,33 +33,27 @@ const dataSource = [
 
 const columns = [
   {
-    title: '用户编码',
+    title: '角色编码',
     dataIndex: 'code',
     key: 'code',
     align:'center',
   },
   {
-    title: '用户名称',
+    title: '角色名称',
     dataIndex: 'name',
     key: 'name',
     align:'center'
   },
   {
-    title: '用户昵称',
-    dataIndex: 'nickname',
-    key: 'nickname',
+    title: '权限字符',
+    dataIndex: 'permissions',
+    key: 'permissions',
     align:'center'
   },
   {
-    title: '部门',
-    dataIndex: 'department',
-    key: 'department',
-    align:'center'
-  },
-  {
-    title: '手机号码',
-    dataIndex: 'phone',
-    key: 'phone',
+    title: '显示顺序',
+    dataIndex: 'order',
+    key: 'order',
     align:'center'
   },
   {
@@ -141,7 +82,7 @@ const columns = [
   },
 ];
 
-export default class User extends Component {
+export default class Role extends Component {
   state = {
     selectedRowKeys: [], // Check here to configure the default column
   };
@@ -173,11 +114,7 @@ export default class User extends Component {
       }}
     >
       <Row gutter={16}>
-      <Col span={6}>
-        <Input placeholder="default size" prefix={<SearchOutlined />} />
-        <Tree treeData={treeData}  defaultExpandAll />
-      </Col>
-      <Col span={18}>
+      <Col span={24}>
         {/* 搜索模块 */}
       <Form
       name="basic"
@@ -186,17 +123,17 @@ export default class User extends Component {
     >
       <Space wrap>
       <Form.Item
-        label="用户名称"
-        name="username"
+        label="角色名称"
+        name="rolename"
       >
-        <Input placeholder="请输入用户名称" style={{width:240}}/>
+        <Input placeholder="请输入角色名称" style={{width:240}}/>
       </Form.Item>
 
       <Form.Item
-        label="手机号码"
-        name="phone"
+        label="权限字符"
+        name="permissions"
       >
-        <Input placeholder="请输入手机号码" style={{width:240}}/>
+        <Input placeholder="请输入手权限字符" style={{width:240}}/>
       </Form.Item>
 
       <Form.Item
@@ -205,7 +142,7 @@ export default class User extends Component {
       >
         <Select
           style={{ width: 240 }}
-          placeholder="用户状态"
+          placeholder="角色状态"
         >
           <Option value="jack">Jack</Option>
           <Option value="lucy">Lucy</Option>
@@ -242,16 +179,14 @@ export default class User extends Component {
             <Button icon={<SearchOutlined />}>新增</Button>
             <Button icon={<EditOutlined />}>修改</Button>
             <Button icon={<DeleteOutlined />}>删除</Button>
-            <Button icon={<VerticalAlignTopOutlined />}>导入</Button>
             <Button icon={<VerticalAlignBottomOutlined />}>导出</Button>
             </Space>
           </div>
 
           <div className="btn_right">
-          <Space wrap>
-            <Button shape="circle" icon={<SearchOutlined />}></Button>
-            <Button shape="circle" icon={<SyncOutlined />}></Button>
-            <Button shape="circle" icon={<BarsOutlined />}></Button>
+            <Space wrap>
+              <Button shape="circle" icon={<SearchOutlined />}></Button>
+              <Button shape="circle" icon={<SyncOutlined />}></Button>
             </Space>
           </div>
           
@@ -263,7 +198,6 @@ export default class User extends Component {
         </Row>
       </Col>
     </Row>
-      
     </Content>
     )
   }
