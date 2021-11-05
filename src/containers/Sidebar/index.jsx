@@ -8,7 +8,9 @@ import {
   UploadOutlined,
   TeamOutlined,
   DingtalkOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons"
+const {SubMenu} = Menu
 const { Sider } = Layout
 class Sidebar extends Component {
   render() {
@@ -26,24 +28,28 @@ class Sidebar extends Component {
         <Menu.Item key="3" icon={<TeamOutlined />} onClick={()=>{this.props.history.push('/management/menu')}}>
           菜单管理
         </Menu.Item>
-        <Menu.Item key="5" icon={<UploadOutlined />}>
+        <Menu.Item key="5" icon={<UploadOutlined />} onClick={()=>{this.props.history.push('/management/department')}} >
           部门管理
         </Menu.Item>
-        <Menu.Item key="6" icon={<DingtalkOutlined />}>
-          岗位管理
+        <Menu.Item key="6" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/jobs')}}>
+          岗位管理 
         </Menu.Item>
-        <Menu.Item key="7" icon={<DingtalkOutlined />}>
+        <Menu.Item key="7" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/dictionary')}}>
           字典管理
         </Menu.Item>
-        <Menu.Item key="8" icon={<DingtalkOutlined />}>
+        <Menu.Item key="8" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/params')}}>
           参数设置
         </Menu.Item>
-        <Menu.Item key="9" icon={<DingtalkOutlined />}>
+        <Menu.Item key="9" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/notice')}}>
           通知公告
         </Menu.Item>
-        <Menu.Item key="10" icon={<DingtalkOutlined />}>
+        {/* <Menu.Item key="10" icon={<DingtalkOutlined />}>
           日志管理
-        </Menu.Item>
+        </Menu.Item> */}
+        <SubMenu key="10" icon={<AppstoreOutlined />} title="通知公告">
+            <Menu.Item key="10-1" onClick={()=>{this.props.history.push('/management/log/operation')}}>操作日志</Menu.Item>
+            <Menu.Item key="10-2" onClick={()=>{this.props.history.push('/management/log/loginlog')}}>登录日志</Menu.Item>
+        </SubMenu>
       </Menu>
     </Sider>
     )

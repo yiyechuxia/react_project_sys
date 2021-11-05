@@ -1,35 +1,55 @@
 /*用户管理模块*/
 import React, { Component } from 'react'
-import { Layout,Row, Col,Input,Button,Select,Form,Space,Table,Switch} from "antd"
+import { Layout,Row, Col,Input,Button,Select,Form,DatePicker,Space,Table,Switch} from "antd"
 import { SearchOutlined,SyncOutlined,EditOutlined,
-  DeleteOutlined,PlusOutlined } from '@ant-design/icons';
+  DeleteOutlined,VerticalAlignBottomOutlined } from '@ant-design/icons';
 import '../../assets/css/management/user.scss'
 const { Content } = Layout
+const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 const dataSource = [
-  
+
 ];
 
+// 表头字段
 const columns = [
   {
-    title: '部门名称',
-    dataIndex: 'depname',
-    key: 'depname',
-    align:'center',
-  },
-  {
-    title: '排序',
-    dataIndex: 'order',
-    key: 'order',
+    title: '参数主键',
+    dataIndex: 'key',
+    key: 'key',
     align:'center'
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
+    title: '参数名称',
+    dataIndex: 'name',
+    key: 'name',
+    align:'center'
+  },
+  {
+    title: '参数键名',
+    dataIndex: 'keyname',
+    key: 'keyname',
+    align:'center'
+  },
+  {
+    title: '参数键值',
+    dataIndex: 'keyVal',
+    key: 'keyVal',
+    align:'center'
+  },
+  {
+    title: '系统内置',
+    dataIndex: 'sysbuiltIn',
+    key: 'sysbuiltIn',
     align:'center',
     render:status=><Switch checked={status}/>
+  },
+  {
+    title: '备注',
+    dataIndex: 'note',
+    key: 'note',
+    align:'center'
   },
   {
     title: '创建时间',
@@ -43,18 +63,29 @@ const columns = [
     render: (text, record) => (
       record.showAction ? <Space size="middle">
         <spen><EditOutlined/>修改</spen>
-        <spen><PlusOutlined />新增</spen>
         <spen><DeleteOutlined/>删除</spen>
       </Space> : ''
     ),
   },
 ];
 
-export default class Department extends Component {
+export default class Dictionary extends Component {
+  state = {
+    selectedRowKeys: [], // Check here to configure the default column
+  };
+  onSelectChange = (selectedRowKeys)=>{
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
   onChange = (pageNumber)=>{
     console.log('Page: ', pageNumber);
   }
   render() {
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
     const Pagination = {
       showQuickJumper:true,
       defaultCurrent:1, 
@@ -79,27 +110,40 @@ export default class Department extends Component {
     >
       <Space wrap>
       <Form.Item
-        label="部门名称"
-        name="menuname"
+        label="字典名称"
+        name="code"
       >
-        <Input placeholder="请输入角色名称" style={{width:240}}/>
+        <Input placeholder="请输入字典名称" style={{width:240}}/>
       </Form.Item>
 
+      <Form.Item
+        label="参数键名"
+        name="name"
+      >
+        <Input placeholder="请输入参数键名" style={{width:240}}/>
+      </Form.Item>
 
       <Form.Item
-        label="状态"
-        name="menustate"
+        label="系统内置"
+        name="state"
       >
         <Select
           style={{ width: 240 }}
-          placeholder="角色状态"
+          placeholder="系统内置"
         >
           <Option value="jack">Jack</Option>
           <Option value="lucy">Lucy</Option>
           <Option value="tom">Tom</Option>
         </Select>
       </Form.Item>
-
+      <Form.Item
+        label="创建时间"
+        name="datePicker"
+      >
+        <Space direction="vertical">
+          <RangePicker style={{ width: 240 }}/>
+        </Space>
+      </Form.Item>
       <Form.Item>
       <Space wrap>
         <Button type="primary" icon={<SearchOutlined />}>
@@ -118,7 +162,10 @@ export default class Department extends Component {
           <div className="btn_left">
           <Space wrap>
             <Button icon={<SearchOutlined />}>新增</Button>
-            <Button icon={<EditOutlined />}>展开/折叠</Button>
+            <Button icon={<EditOutlined />}>修改</Button>
+            <Button icon={<DeleteOutlined />}>删除</Button>
+            <Button icon={<VerticalAlignBottomOutlined />}>导出</Button>
+            <Button icon={<SyncOutlined />}>刷新缓存</Button>
             </Space>
           </div>
 
@@ -132,7 +179,7 @@ export default class Department extends Component {
           </Col>
           {/* 表格模块 */}
             <Col span={24} style={{'marginTop':'10px'}}>
-                <Table dataSource={dataSource} columns={columns} pagination={Pagination}/>
+                <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={Pagination}/>
             </Col>
         </Row>
       </Col>

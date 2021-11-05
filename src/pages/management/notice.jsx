@@ -2,32 +2,32 @@
 import React, { Component } from 'react'
 import { Layout,Row, Col,Input,Button,Select,Form,Space,Table,Switch} from "antd"
 import { SearchOutlined,SyncOutlined,EditOutlined,
-  DeleteOutlined,PlusOutlined } from '@ant-design/icons';
+  DeleteOutlined } from '@ant-design/icons';
 import '../../assets/css/management/user.scss'
 const { Content } = Layout
 const { Option } = Select;
 
 const dataSource = [
-  
 ];
 
+// 表头字段
 const columns = [
   {
-    title: '部门名称',
-    dataIndex: 'depname',
-    key: 'depname',
+    title: '序号',
+    dataIndex: 'number',
+    key: 'number',
     align:'center',
   },
   {
-    title: '排序',
-    dataIndex: 'order',
-    key: 'order',
+    title: '公告标题',
+    dataIndex: 'title',
+    key: 'title',
     align:'center'
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
+    title: '公告类型',
+    dataIndex: 'type',
+    key: 'type',
     align:'center',
     render:status=><Switch checked={status}/>
   },
@@ -43,18 +43,29 @@ const columns = [
     render: (text, record) => (
       record.showAction ? <Space size="middle">
         <spen><EditOutlined/>修改</spen>
-        <spen><PlusOutlined />新增</spen>
         <spen><DeleteOutlined/>删除</spen>
       </Space> : ''
     ),
   },
 ];
 
-export default class Department extends Component {
+export default class Notice extends Component {
+  state = {
+    selectedRowKeys: [], // Check here to configure the default column
+  };
+  onSelectChange = (selectedRowKeys)=>{
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
   onChange = (pageNumber)=>{
     console.log('Page: ', pageNumber);
   }
   render() {
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
     const Pagination = {
       showQuickJumper:true,
       defaultCurrent:1, 
@@ -79,16 +90,22 @@ export default class Department extends Component {
     >
       <Space wrap>
       <Form.Item
-        label="部门名称"
-        name="menuname"
+        label="公告标题"
+        name="title"
       >
-        <Input placeholder="请输入角色名称" style={{width:240}}/>
+        <Input placeholder="请输入公告标题" style={{width:240}}/>
       </Form.Item>
 
+      <Form.Item
+        label="操作人员"
+        name="person"
+      >
+        <Input placeholder="请输入操作人员" style={{width:240}}/>
+      </Form.Item>
 
       <Form.Item
-        label="状态"
-        name="menustate"
+        label="类型"
+        name="state"
       >
         <Select
           style={{ width: 240 }}
@@ -99,7 +116,6 @@ export default class Department extends Component {
           <Option value="tom">Tom</Option>
         </Select>
       </Form.Item>
-
       <Form.Item>
       <Space wrap>
         <Button type="primary" icon={<SearchOutlined />}>
@@ -118,7 +134,8 @@ export default class Department extends Component {
           <div className="btn_left">
           <Space wrap>
             <Button icon={<SearchOutlined />}>新增</Button>
-            <Button icon={<EditOutlined />}>展开/折叠</Button>
+            <Button icon={<EditOutlined />}>修改</Button>
+            <Button icon={<DeleteOutlined />}>删除</Button>
             </Space>
           </div>
 
@@ -132,7 +149,7 @@ export default class Department extends Component {
           </Col>
           {/* 表格模块 */}
             <Col span={24} style={{'marginTop':'10px'}}>
-                <Table dataSource={dataSource} columns={columns} pagination={Pagination}/>
+                <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={Pagination}/>
             </Col>
         </Row>
       </Col>
