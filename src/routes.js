@@ -1,5 +1,6 @@
 import { RouteConfig } from "react-router-config"
 import App from "./App"
+import { Redirect } from 'react-router-dom'
 // 系统管理模块
 import User from './pages/management/user'
 import Role from "./pages/management/role"
@@ -17,6 +18,13 @@ const routes : RouteConfig = [
     path: "/",
     component: App,
     routes: [
+      {
+        path:"/",
+        exact:true,
+        render:() => (
+            <Redirect to={"/management/user"}/>
+        )
+    },
       {
         path: "/management/user",
         component: User,
