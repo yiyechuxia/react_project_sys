@@ -10,7 +10,7 @@ import {
   AppstoreOutlined
 } from "@ant-design/icons"
 const { Header } = Layout
- class index extends Component {
+ class Headers extends Component {
   state = {
     current: "mail",
   }
@@ -104,4 +104,4 @@ export default connect(
     toggleByfalse :FALSE_S
   }
 
-)(index)
+)(Headers)

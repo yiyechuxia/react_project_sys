@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Layout } from "antd"
 const { Content } = Layout
-export default class index extends Component {
+export default class Contents extends Component {
   render() {
     return (
       // 内容区模块

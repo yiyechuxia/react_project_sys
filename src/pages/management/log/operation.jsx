@@ -64,9 +64,9 @@ const columns = [
     key: 'action',
     render: (text, record) => (
       record.showAction ? <Space size="middle">
-        <spen><EditOutlined/>修改</spen>
-        <spen><DeleteOutlined/>删除</spen>
-        <spen><MenuOutlined />更多</spen>
+        <span><EditOutlined/>修改</span>
+        <span><DeleteOutlined/>删除</span>
+        <span><MenuOutlined />更多</span>
       </Space> : ''
     ),
   },

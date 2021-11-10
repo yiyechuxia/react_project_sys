@@ -2,47 +2,56 @@ import React, { Component } from 'react'
 import { Menu,Layout } from "antd"
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  TeamOutlined,
-  DingtalkOutlined,
-  AppstoreOutlined,
-} from "@ant-design/icons"
-const {SubMenu} = Menu
+import Icons from '../../components/icons';
+const { SubMenu } = Menu
 const { Sider } = Layout
 const menuList = [
-  {id:1,icon:'UserOutlined',title:'用户管理',key:'1-1',route:'/management/user'},
-  {id:2,icon:'VideoCameraOutlined',title:'角色管理',key:'1-2',route:'/management/role'},
-  {id:3,icon:'TeamOutlined',title:'菜单管理',key:'1-3',route:'/management/menu'},
-  {id:4,icon:'UploadOutlined',title:'部门管理',key:'1-4',route:'/management/department'},
-  {id:5,icon:'DingtalkOutlined',title:'岗位管理',key:'1-5',route:'/management/jobs'},
-  {id:6,icon:'DingtalkOutlined',title:'字典管理',key:'1-6',route:'/management/dictionary'},
-  {id:7,icon:'DingtalkOutlined',title:'参数管理',key:'1-7',route:'/management/params'},
-  {id:8,icon:'DingtalkOutlined',title:'通知公告',key:'1-8',route:'/management/notice'},
-  {id:9,icon:'AppstoreOutlined',title:'日志管理',key:'1-9',route:null , childern:[
-    {id:10,title:'操作日志',key:'1-9-1',route:'/management/log/operation'},
-    {id:11,title:'登录日志',key:'1-9-2',route:'/management/log/loginlog'},
+  {id:1,icon:'touxiang',title:'用户管理',key:'1-1',route:'/management/user'},
+  {id:2,icon:'jiaoseguanli',title:'角色管理',key:'1-2',route:'/management/role'},
+  {id:3,icon:'caidan',title:'菜单管理',key:'1-3',route:'/management/menu'},
+  {id:4,icon:'bumen',title:'部门管理',key:'1-4',route:'/management/department'},
+  {id:5,icon:'qiyeguanli_gangweiguanli',title:'岗位管理',key:'1-5',route:'/management/jobs'},
+  {id:6,icon:'zidianguanli',title:'字典管理',key:'1-6',route:'/management/dictionary'},
+  {id:7,icon:'bianji',title:'参数管理',key:'1-7',route:'/management/params'},
+  {id:8,icon:'duihua2',title:'通知公告',key:'1-8',route:'/management/notice'},
+  {id:9,icon:'rizhi',title:'日志管理',key:'1-9',route:null , childern:[
+    {id:10,icon:'rizhi1',title:'操作日志',key:'1-9-1',route:'/management/log/operation'},
+    {id:11,icon:'dengluye-dengluzhanghaotubiao',title:'登录日志',key:'1-9-2',route:'/management/log/loginlog'},
   ]},
 ]
+
 class Sidebar extends Component {
+  state = {
+    selectedKey:['1-1']
+  }
+  routerGo = (data)=>{
+    // console.log(data);
+    localStorage.setItem('selectedKey',JSON.stringify(data.keyPath))
+  }
+  componentDidMount(){
+  }
   render() {
+    const selectedKey_local = JSON.parse(localStorage.getItem('selectedKey'))
+    const {selectedKey:selectedKey_state} = this.state
+    const selectedKey = selectedKey_local ? selectedKey_local : selectedKey_state
     return (
       // 侧边栏菜单
       <Sider trigger={null} collapsible collapsed={this.props.switchV}>
       <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1-1"]}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={selectedKey} defaultOpenKeys={selectedKey}>
         {menuList.map(item=>{
           if(item.childern){
-           return <SubMenu key={item.key} icon={item.icon} title={item.title}>
-                      {item.childern.map(el=>{
-                        return <Menu.Item key={el.key} onClick={()=>{this.props.history.push(el.route)}}>{el.title}</Menu.Item>
-                      })}
-                  </SubMenu>
+           return (
+            <SubMenu key={item.key} icon={(<Icons name={item.icon}/>)} title={item.title}>
+                {item.childern.map(el=>{
+                  // this.props.history.push(el.route)
+                  return <Menu.Item key={el.key} icon={(<Icons name={el.icon}/>)} onClick={this.routerGo}>{el.title}</Menu.Item>
+                })}
+            </SubMenu>
+           )
           }else{
             return (
-              <Menu.Item key={item.key} icon={(<UserOutlined />)} onClick={()=>{this.props.history.push(item.route)}}>
+              <Menu.Item key={item.key} icon={(<Icons name={item.icon}/>)} onClick={this.routerGo}>
                 {item.title}
               </Menu.Item>
             )

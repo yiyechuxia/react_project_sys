@@ -62,14 +62,14 @@ const columns = [
     key: 'action',
     render: (text, record) => (
       record.showAction ? <Space size="middle">
-        <spen><EditOutlined/>修改</spen>
-        <spen><DeleteOutlined/>删除</spen>
+        <span><EditOutlined/>修改</span>
+        <span><DeleteOutlined/>删除</span>
       </Space> : ''
     ),
   },
 ];
 
-export default class Dictionary extends Component {
+export default class Params extends Component {
   state = {
     selectedRowKeys: [], // Check here to configure the default column
   };
