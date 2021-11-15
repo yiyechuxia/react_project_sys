@@ -24,9 +24,11 @@ class Sidebar extends Component {
   state = {
     selectedKey:['1-1']
   }
-  routerGo = (data)=>{
-    // console.log(data);
-    localStorage.setItem('selectedKey',JSON.stringify(data.keyPath))
+  routerGo = (item)=>{
+    return (data)=>{
+      localStorage.setItem('selectedKey',JSON.stringify(data.keyPath))
+      this.props.history.push(item.route)
+    }
   }
   componentDidMount(){
   }
@@ -45,13 +47,13 @@ class Sidebar extends Component {
             <SubMenu key={item.key} icon={(<Icons name={item.icon}/>)} title={item.title}>
                 {item.childern.map(el=>{
                   // this.props.history.push(el.route)
-                  return <Menu.Item key={el.key} icon={(<Icons name={el.icon}/>)} onClick={this.routerGo}>{el.title}</Menu.Item>
+                  return <Menu.Item key={el.key} icon={(<Icons name={el.icon}/>)} onClick={this.routerGo(el)}>{el.title}</Menu.Item>
                 })}
             </SubMenu>
            )
           }else{
             return (
-              <Menu.Item key={item.key} icon={(<Icons name={item.icon}/>)} onClick={this.routerGo}>
+              <Menu.Item key={item.key} icon={(<Icons name={item.icon}/>)} onClick={this.routerGo(item)}>
                 {item.title}
               </Menu.Item>
             )

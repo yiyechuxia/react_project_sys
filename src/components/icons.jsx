@@ -4,9 +4,9 @@ export default class Icon extends Component {
   render() {
     const {name} = this.props
     return (
-      <svg className="icon" style={{marginRight:'5px'}} aria-hidden="true">
-          <use xlinkHref={'#icon-' + name}></use>
-      </svg>
+      <span className="anticon">
+        <i className={`iconfont icon-${name}`}></i>
+      </span>
     )
   }
 }
