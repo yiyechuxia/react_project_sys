@@ -3,6 +3,7 @@ import { Menu,Layout } from "antd"
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Icons from '../../components/icons';
+import { addTags,selectedTag } from '../../redux/actions/tagList';
 const { SubMenu } = Menu
 const { Sider } = Layout
 const menuList = [
@@ -26,6 +27,9 @@ class Sidebar extends Component {
   }
   routerGo = (item)=>{
     return (data)=>{
+      console.log(data);
+      this.props.addTags(item)
+      this.props.selectedTag(item)
       localStorage.setItem('selectedKey',JSON.stringify(data.keyPath))
       this.props.history.push(item.route)
     }
@@ -46,7 +50,6 @@ class Sidebar extends Component {
            return (
             <SubMenu key={item.key} icon={(<Icons name={item.icon}/>)} title={item.title}>
                 {item.childern.map(el=>{
-                  // this.props.history.push(el.route)
                   return <Menu.Item key={el.key} icon={(<Icons name={el.icon}/>)} onClick={this.routerGo(el)}>{el.title}</Menu.Item>
                 })}
             </SubMenu>
@@ -59,34 +62,6 @@ class Sidebar extends Component {
             )
           }
         })}
-          {/* <Menu.Item key="1-1" icon={<UserOutlined />} onClick={()=>{this.props.history.push('/management/user')}}>
-            用户管理
-          </Menu.Item>
-          <Menu.Item key="1-2" icon={<VideoCameraOutlined />} onClick={()=>{this.props.history.push('/management/role')}}>
-            角色管理
-          </Menu.Item>
-          <Menu.Item key="1-3" icon={<TeamOutlined />} onClick={()=>{this.props.history.push('/management/menu')}}>
-            菜单管理
-          </Menu.Item>
-          <Menu.Item key="1-4" icon={<UploadOutlined />} onClick={()=>{this.props.history.push('/management/department')}} >
-            部门管理
-          </Menu.Item>
-          <Menu.Item key="1-5" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/jobs')}}>
-            岗位管理 
-          </Menu.Item>
-          <Menu.Item key="1-6" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/dictionary')}}>
-            字典管理
-          </Menu.Item>
-          <Menu.Item key="1-7" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/params')}}>
-            参数设置
-          </Menu.Item>
-          <Menu.Item key="1-8" icon={<DingtalkOutlined />} onClick={()=>{this.props.history.push('/management/notice')}}>
-            通知公告
-          </Menu.Item>
-          <SubMenu key="1-9" icon={<AppstoreOutlined />} title="日志管理">
-              <Menu.Item key="1-9-1" onClick={()=>{this.props.history.push('/management/log/operation')}}>操作日志</Menu.Item>
-              <Menu.Item key="1-9-2" onClick={()=>{this.props.history.push('/management/log/loginlog')}}>登录日志</Menu.Item>
-          </SubMenu> */}
       </Menu>
     </Sider>
     )
@@ -94,6 +69,9 @@ class Sidebar extends Component {
 }
 
 export default connect(
-  state => ({switchV:state}),
-  {}
+  state => ({switchV:state.Collapsed}),
+  {
+    addTags,
+    selectedTag
+  }
 )(withRouter(Sidebar))

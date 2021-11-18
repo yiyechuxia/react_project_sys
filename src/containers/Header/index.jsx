@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Layout, Menu, Avatar, Dropdown, Tag } from "antd"
 import { FALSE_S,TRUE_S } from '../../redux/actions/collapsed';
+import { selectedTag } from '../../redux/actions/tagList';
+import {withRouter} from 'react-router-dom';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -26,12 +28,26 @@ const { Header } = Layout
     this.setState({ current: e.key })
   }
 
-  preventDefault = (e) => {
-    e.preventDefault()
-    console.log("Clicked! But prevent default.")
+  preventDefault = (item,index) => {
+    return (e)=>{
+      console.log(item,index);
+      e.preventDefault()
+      console.log("Clicked! But prevent default.")
+    }
+  }
+
+  handleTags = (item,index)=>{
+    return ()=>{
+      console.log(item);
+      console.log(index);
+      localStorage.setItem('selectedKey',JSON.stringify([item.key]))
+      this.props.handleSelected(item)
+      this.props.history.push(item.route)
+    }
   }
   render() {
     const { current } = this.state
+    const {tagList,selectedTag} = this.props
     const menu = (
       <Menu>
         <Menu.Item>
@@ -87,9 +103,16 @@ const { Header } = Layout
           </Header>
           {/* 显示当前页面tag */}
           <div className="tagList">
-            <Tag color='#409eff' closable onClose={this.preventDefault}>
-              首页
-            </Tag>
+          {
+            tagList.map((item,index)=>{
+              return (
+                <Tag onClick={this.handleTags(item,index)} color={item.id === selectedTag.id ? '#409eff' :  'default'} key={item.id} closable={item.id === 0 ? false : true} onClose={this.preventDefault(item,index)}>
+                  {item.title}
+                </Tag>
+              )
+            })
+          }
+            
           </div>
       </div>
     )
@@ -98,10 +121,11 @@ const { Header } = Layout
 
 
 export default connect(
-  (state)=>({switchV:state}),
+  (state)=>({switchV:state.Collapsed,tagList:state.TagList,selectedTag:state.SelectedTag}),
   {
     toggleBytrue: TRUE_S,
-    toggleByfalse :FALSE_S
+    toggleByfalse :FALSE_S,
+    handleSelected:selectedTag
   }
 
-)(Headers)
+)(withRouter(Headers))

@@ -1,4 +1,11 @@
-import { createStore } from 'redux';
+import { createStore,combineReducers } from 'redux';
 import Collapsed from './reducers/collapsed'
+import {TagList,SelectedTag} from './reducers/tagList'
 
-export default createStore(Collapsed)
+const All_Reducers = combineReducers({
+  Collapsed,
+  TagList,
+  SelectedTag
+})
+
+export default createStore(All_Reducers)

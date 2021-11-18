@@ -1,14 +1,27 @@
-import {ADD_TAG} from '../content'
+import {ADD_TAG,SELECTED_TAG} from '../content'
 const initStore = [
   {id:0,icon:'',title:'首页',key:'0',route:'/home'}
 ]
-export default function TagList(prevStore=initStore,action){
+export function TagList(prevStore=initStore,action){
   const {type,data} = action
   switch (type) {
     case ADD_TAG:
+     const findNode = prevStore.find(item=>{
+        return item.id === data.id
+      })
+      if(findNode) return prevStore
       return [...prevStore,data]
     default:
       return prevStore;
   }
+}
 
+export function SelectedTag(prevStore=initStore[0],action){
+  const {type,data} = action
+  switch (type) {
+    case SELECTED_TAG:
+      return data
+      default:
+        return prevStore;
+  }
 }
