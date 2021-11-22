@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Layout, Menu, Avatar, Dropdown, Tag } from "antd"
 import { FALSE_S,TRUE_S } from '../../redux/actions/collapsed';
-import { selectedTag } from '../../redux/actions/tagList';
+import { selectedTag,removeTag } from '../../redux/actions/tagList';
 import {withRouter} from 'react-router-dom';
 import {
   MenuUnfoldOutlined,
@@ -28,11 +28,16 @@ const { Header } = Layout
     this.setState({ current: e.key })
   }
 
-  preventDefault = (item,index) => {
+  removeTags = (item,index) => {
     return (e)=>{
-      console.log(item,index);
+      const {tagList,selectedTag} = this.props
       e.preventDefault()
-      console.log("Clicked! But prevent default.")
+      if(selectedTag.id === item.id){
+        this.props.handleSelected(tagList[index - 1])
+        this.props.history.push(tagList[index - 1].route)
+        localStorage.setItem('selectedKey',JSON.stringify([tagList[index - 1].key]))
+      }
+      this.props.removeTag(item)
     }
   }
 
@@ -106,7 +111,7 @@ const { Header } = Layout
           {
             tagList.map((item,index)=>{
               return (
-                <Tag onClick={this.handleTags(item,index)} color={item.id === selectedTag.id ? '#409eff' :  'default'} key={item.id} closable={item.id === 0 ? false : true} onClose={this.preventDefault(item,index)}>
+                <Tag onClick={this.handleTags(item,index)} color={item.id === selectedTag.id ? '#409eff' :  'default'} key={item.id} closable={item.id === 0 ? false : true} onClose={this.removeTags(item,index)}>
                   {item.title}
                 </Tag>
               )
@@ -125,7 +130,8 @@ export default connect(
   {
     toggleBytrue: TRUE_S,
     toggleByfalse :FALSE_S,
-    handleSelected:selectedTag
+    handleSelected:selectedTag,
+    removeTag
   }
 
 )(withRouter(Headers))

@@ -68,7 +68,6 @@ export default class Dictionary extends Component {
     selectedRowKeys: [], // Check here to configure the default column
   };
   onSelectChange = (selectedRowKeys)=>{
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   }
   onChange = (pageNumber)=>{

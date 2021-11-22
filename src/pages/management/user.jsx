@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Layout,Row, Col,Input,Tree,Button,Select,Form,DatePicker,Space,Table,Switch} from "antd"
 import { SearchOutlined,SyncOutlined,EditOutlined,
   DeleteOutlined,
-  VerticalAlignTopOutlined,VerticalAlignBottomOutlined,BarsOutlined,MenuOutlined } from '@ant-design/icons';
+  VerticalAlignTopOutlined,VerticalAlignBottomOutlined,BarsOutlined,MenuOutlined,PlusOutlined } from '@ant-design/icons';
 import '../../assets/css/management/user.scss'
 const { Content } = Layout
 
@@ -173,11 +173,11 @@ export default class User extends Component {
       }}
     >
       <Row gutter={16}>
-      <Col span={6}>
-        <Input placeholder="default size" prefix={<SearchOutlined />} />
+      <Col span={4}>
+        <Input placeholder="请输入部门名称" prefix={<SearchOutlined />} />
         <Tree treeData={treeData}  defaultExpandAll />
       </Col>
-      <Col span={18}>
+      <Col span={20}>
         {/* 搜索模块 */}
       <Form
       name="basic"
@@ -239,7 +239,7 @@ export default class User extends Component {
           <Col span={24}>
           <div className="btn_left">
           <Space wrap>
-            <Button icon={<SearchOutlined />}>新增</Button>
+            <Button icon={<PlusOutlined />}>新增</Button>
             <Button icon={<EditOutlined />}>修改</Button>
             <Button icon={<DeleteOutlined />}>删除</Button>
             <Button icon={<VerticalAlignTopOutlined />}>导入</Button>
