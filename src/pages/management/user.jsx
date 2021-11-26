@@ -143,6 +143,7 @@ const columns = [
 
 export default class User extends Component {
   state = {
+    searchValue:'',
     selectedRowKeys: [], // Check here to configure the default column
   };
   onSelectChange = (selectedRowKeys)=>{
@@ -152,8 +153,44 @@ export default class User extends Component {
   onChange = (pageNumber)=>{
     console.log('Page: ', pageNumber);
   }
+  searchTree = (e)=>{
+    const {value} = e.target
+    console.log(value);
+    const filterTree = treeData.filter(item=>{
+      return item && item.title.includes(value)
+    })
+    console.log(filterTree);
+    this.setState({
+      searchValue:value
+    })
+  }
   render() {
-    const { selectedRowKeys } = this.state;
+    const { selectedRowKeys,searchValue } = this.state;
+    // 关键字搜索高亮start
+    const loop = data => data.map(item=>{
+      const index = item.title.indexOf(searchValue)
+      const beforeStr = item.title.substr(0,index)
+      const afterStr = item.title.substr(index + searchValue.length)
+      const title = index > -1 ? (
+        <span>
+          {beforeStr}
+          <span className="site-tree-search-value">{searchValue}</span>
+          {afterStr}
+        </span>
+      ) : (
+        <span>{item.title}</span>
+      )
+      if(item.children){
+        return { title, key: item.key, children: loop(item.children) };
+      }
+
+      return {
+        title,
+        key: item.key,
+      };
+    })
+    // 关键字搜索高亮end
+
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -174,8 +211,9 @@ export default class User extends Component {
     >
       <Row gutter={16}>
       <Col span={4}>
-        <Input placeholder="请输入部门名称" prefix={<SearchOutlined />} />
-        <Tree treeData={treeData}  defaultExpandAll />
+        <Input placeholder="请输入部门名称" prefix={<SearchOutlined />} onPressEnter={this.searchTree} />
+        {/* <Tree treeData={treeData}  defaultExpandAll autoExpandParent /> */}
+        <Tree treeData={loop(treeData)}  defaultExpandAll autoExpandParent />
       </Col>
       <Col span={20}>
         {/* 搜索模块 */}
@@ -238,12 +276,12 @@ export default class User extends Component {
       <Row>
           <Col span={24}>
           <div className="btn_left">
-          <Space wrap>
-            <Button icon={<PlusOutlined />}>新增</Button>
-            <Button icon={<EditOutlined />}>修改</Button>
-            <Button icon={<DeleteOutlined />}>删除</Button>
-            <Button icon={<VerticalAlignTopOutlined />}>导入</Button>
-            <Button icon={<VerticalAlignBottomOutlined />}>导出</Button>
+            <Space wrap>
+              <Button icon={<PlusOutlined />}>新增</Button>
+              <Button icon={<EditOutlined />}>修改</Button>
+              <Button icon={<DeleteOutlined />}>删除</Button>
+              <Button icon={<VerticalAlignTopOutlined />}>导入</Button>
+              <Button icon={<VerticalAlignBottomOutlined />}>导出</Button>
             </Space>
           </div>
 

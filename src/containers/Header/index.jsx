@@ -16,6 +16,10 @@ const { Header } = Layout
   state = {
     current: "mail",
   }
+  // 退出登录
+  logout = ()=>{
+    this.props.history.replace('/login')
+  }
   
   toggle = (switchV) => {
     return ()=>{
@@ -63,7 +67,7 @@ const { Header } = Layout
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
-          <span>退出登录</span>
+          <span onClick={this.logout}>退出登录</span>
         </Menu.Item>
       </Menu>
     )

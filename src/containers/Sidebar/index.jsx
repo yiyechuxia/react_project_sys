@@ -23,7 +23,7 @@ const menuList = [
 
 class Sidebar extends Component {
   state = {
-    selectedKey:['1-1']
+    selectedKey:[]
   }
   routerGo = (item)=>{
     return (data)=>{
